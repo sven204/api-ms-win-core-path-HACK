@@ -1,28 +1,13 @@
 # api-ms-win-core-path-l1-1-0.dll HACK
-This is (extremely) hacky implementation of some of the functions in the original `api-ms-win-core-path-l1-1-0.dll` which is needed during the installation of Windows SDK 10.0.14393.0 on Windows 7.
+This is an (extremely) hacky implementation of some of the functions in the original `api-ms-win-core-path-l1-1-0.dll` bundled with Windows 8.1/Server 2012 and later, required so that Python 3.9+ will work on Windows 7.
+## But why?
+The Python 3.9.0 installers prevent installation on Windows 7.  
+Furthermore, Python 3.9.0 will not run on Windows 7 because the Python executable depends on `api-ms-win-core-path-l1-1-0.dll` which, AFAIK, does not exist for Windows 7.
 
-## Description
-
-As explained [here], WinSDK 10.0.14393 fails to install correctly on Windows 7 because `mdmerge.exe` depends on `api-ms-win-core-path-l1-1-0.dll` which AFAIK does not exist for Windows 7.
-
-`mdmerge.exe` only imports `PathCchCanonicalizeEx` and `PathCchRemoveFileSpec` from `api-ms-win-core-path-l1-1-0.dll`
-
-So this project implements these 2 functions so that `mdmerge.exe` is able to run.
-
-## Installaion (tested on Win7-x64 only)
-Clone and build it yourself or download a statically precompiled [release].
-- Option 1:
-<br>After building copy the x64 dll to `system32` and the x86 dll to `SysWOW64`.
-- Option 2:
-<br>Copy to the install directory where `mdmerge.exe` resides.
-<br>By default it is `C:\Program Files (x86)\Windows Kits\10\bin\[x86|x64]`
-
-After the WinSDK setup installs successfully it might be safer to delete the hacky dlls from the system and hope that MS will fix this issue soon.
-
-## Reference
-[Windows SDK 10.0.14393.0 install fails on Windows 7](https://connect.microsoft.com/VisualStudio/feedback/details/3054875/windows-sdk-1%200-0-14393-0-install-fails-on-windows-7)
-<br>
-[Failed to Install Win 10 SDK onto a Win 7 machine](https://social.msdn.microsoft.com/Forums/silverlight/en-US/a7e0624b-cafd-4163-b008-7294e29de75f/failed-to-install-win-10-sdk-onto-a-win-7-machine?forum=wpdevelop)
-
-[here]: https://connect.microsoft.com/VisualStudio/feedback/details/3054875/windows-sdk-1%200-0-14393-0-install-fails-on-windows-7
-[release]: https://github.com/kobilutil/api-ms-win-core-path-HACK/releases
+However, the Python executable only imports `PathCchCanonicalizeEx` and `PathCchCombineEx` from `api-ms-win-core-path-l1-1-0.dll`, so this project implements these two functions.
+## Installation of Python 3.9.0 with the hack (tested on Windows 7 x64 only)
+1. Install Python 3.9.0 from the [embeddable .zip file](//www.python.org/ftp/python/3.9.0/python-3.9.0-embed-amd64.zip).
+2. Install a C/C++ compiler (for now, there is no binary release). I used the compiler available from [mingw-w64.org](//mingw-w64.org/doku.php/download/mingw-builds) -- however, it's hosted on Sourceforge, so choose it at your own risk.
+3. Compile `api-ms-win-core-path-HACK.cpp`. Add the flags `-shared` to create a DLL and `-lshlwapi` to properly link with another Windows DLL.
+4. Make sure the output DLL is named `api-ms-win-core-path-l1-1-0.dll`.
+5. Move the DLL to System32 or another directory in your PATH environment variable.
