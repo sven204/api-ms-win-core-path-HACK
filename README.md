@@ -1,6 +1,6 @@
 # Python 3.9+ on Windows 7
 ## What is this?
-This project reimplements some of the functions in the library `api-ms-win-core-path-l1-1-0.dll` bundled with Windows 8.1/Server 2012 and later so that Python 3.9+ can be used on Windows 7.
+This project reimplements some of the functions in the library `api-ms-win-core-path-l1-1-0.dll` bundled with Windows 8/Server 2012 and later so that Python 3.9+ can be used on Windows 7.
 ## But why?
 I use Windows 7 and do not want to switch to Windows 8 or later for a lot of reasons.
 
