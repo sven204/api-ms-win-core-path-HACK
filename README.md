@@ -9,6 +9,7 @@ Furthermore, Python 3.9.0 will not run on Windows 7 because the Python executabl
 ## And how do I use it?
 **Note:** The following steps were only tested on 64-bit Windows 7.
 1. Install Python 3.9.0 from the [embeddable .zip file](//www.python.org/ftp/python/3.9.0/python-3.9.0-embed-amd64.zip).
-2. Install a C/C++ compiler (for now, there is no binary release). I used the compiler available from [mingw-w64.org](//mingw-w64.org/doku.php/download/mingw-builds) -- however, it's hosted on Sourceforge, so choose it at your own risk.
-3. Compile `api-ms-win-core-path-HACK.cpp`. Add the flags `-shared` to create a DLL and `-lshlwapi` to properly link with another Windows DLL. Make sure the output DLL is named `api-ms-win-core-path-l1-1-0.dll`.
-4. Move the DLL to System32 or another directory in your PATH environment variable.
+2. Grab a binary release. Alternatively...
+3. Install a C/C++ compiler. I used the compiler available from [mingw-w64.org](//mingw-w64.org/doku.php/download/mingw-builds) -- however, it's hosted on Sourceforge, so choose it at your own risk.
+4. Compile `api-ms-win-core-path-HACK.cpp`. Add the flags `-shared` to create a DLL and `-lshlwapi` to properly link with another Windows DLL. Make sure the output DLL is named `api-ms-win-core-path-l1-1-0.dll`.
+5. Move the DLL to System32 or another directory in your PATH environment variable.
